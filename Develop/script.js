@@ -1,25 +1,43 @@
 $(document).ready(function() {
+
     var currentDay = moment().format('dddd, MMMM Do');
     $('#currentDay').html(currentDay);
 
-    var createPlanner = function () {
-        var workHours = 9;
-        for (var i = 0; i < workHours; i++) {
+
+    function hourBlocks(){
+        
+        var workHour = 9;        
+
+        while(workHour < 18){
+            
+            var currentHour = moment().hour();
+            var colorClass = '';
+            
+
+            if ((workHour - currentHour) < 0){
+                colorClass = 'past';
+            } else if (workHour === currentHour){
+                colorClass = 'present';
+            } else {
+                colorClass = 'future';
+            }           
+
+
             $('#timeblocks').append(`<div class='row time-block'>
-            <div class='col-md-1 hour description'>
+            <div class='col-md-1 hour description' id='${workHour}'> ${workHour}
             </div>
-            <div class='col-md-10 present divider'>
-              <textarea cols='100%'></textarea>
+            <div class='col-md-10 divider ${colorClass}'>
+                <textarea cols='100%' value=''></textarea>
             </div>
-            <div class='col-md-1 saveBtn'>
+            <div class='col-md-1 saveBtn btn btn-primary id='save'>
                 SAVE
             </div>
-        `)
+            `)
+            workHour++;
+
         }
-            
-    }
+    } 
 
-    createPlanner();
+    hourBlocks();
+  
 });
-
-    
