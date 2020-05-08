@@ -6,10 +6,18 @@ $(document).ready(function() {
 
     function hourBlocks(){
         
-        var workHour = 9;        
+        var startWork = moment('9:00 am', 'h:mm a'); 
+        var endWork = moment('6:00 pm', 'h:mm a');
+        var currentHour = moment().hour('h:mm a');
+        console.log(currentHour);
+        
+        var calendar = {};
 
-        while(workHour < 18){
-            
+        for (var m = moment(startWork); m.isBefore(endWork); m.add(1, 'hour')){
+            var time = m.format('h:mm a');
+
+        /*while(workHour < 18){
+             ${colorClass}
             var currentHour = moment().hour();
             var colorClass = '';
             
@@ -20,24 +28,26 @@ $(document).ready(function() {
                 colorClass = 'present';
             } else {
                 colorClass = 'future';
-            }           
+            }    */       
 
 
             $('#timeblocks').append(`<div class='row time-block'>
-            <div class='col-md-1 hour description' id='${workHour}'> ${workHour}
+            <div class='col-md-1 hour description' id='${time}'> ${time}
             </div>
-            <div class='col-md-10 divider ${colorClass}'>
-                <textarea cols='100%' value=''></textarea>
+            <div class='col-md-10 divider'>
+                <textarea cols='100%' name='task' id='task' value='task'></textarea>
             </div>
             <div class='col-md-1 saveBtn btn btn-primary id='save'>
                 SAVE
             </div>
             `)
-            workHour++;
+            
 
         }
     } 
 
     hourBlocks();
+
+    
   
 });
