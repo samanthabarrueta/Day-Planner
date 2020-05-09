@@ -1,53 +1,45 @@
-$(document).ready(function() {
-
-    var currentDay = moment().format('dddd, MMMM Do');
-    $('#currentDay').html(currentDay);
-
-
-    function hourBlocks(){
-        
-        var startWork = moment('9:00 am', 'h:mm a'); 
-        var endWork = moment('6:00 pm', 'h:mm a');
-        var currentHour = moment().hour('h:mm a');
-        console.log(currentHour);
-        
-        var calendar = {};
-
-        for (var m = moment(startWork); m.isBefore(endWork); m.add(1, 'hour')){
-            var time = m.format('h:mm a');
-
-        /*while(workHour < 18){
-             ${colorClass}
+$(document).ready(function () {
+    var a = moment().format('dddd, MMMM Do');
+    $('#currentDay').html(a);
+    var x = moment().format('h : mm a');
+    // $('.hour').html(x);
+    hourBlocks();
+    $(document).on('click', '.saveBtn', function (event) {
+        var previousElements = $(this).prevAll();
+        console.log(previousElements);
+        var userInput = $(previousElements[0]).children().first().val();
+        var timeSlot = $(previousElements[1]).html();
+        localStorage.setItem(timeSlot, userInput);
+        console.log(time)
+        console.log(userInput)
+    });
+    function hourBlocks() {
+        var workHour = 9;
+        var colorClass = '';
+        while (workHour < 18) {
             var currentHour = moment().hour();
             var colorClass = '';
-            
-
-            if ((workHour - currentHour) < 0){
+            if ((workHour - currentHour) < 0) {
                 colorClass = 'past';
-            } else if (workHour === currentHour){
+            } else if (workHour === currentHour) {
                 colorClass = 'present';
             } else {
                 colorClass = 'future';
-            }    */       
-
-
-            $('#timeblocks').append(`<div class='row time-block'>
-            <div class='col-md-1 hour description' id='${time}'> ${time}
+            }
+            var existingPlanInStorage = localStorage.getItem(workHour);
+            var existingPlan = '';
+            if (existingPlanInStorage != null)
+                existingPlan = existingPlanInStorage;
+            $('#timeblocks').append(`<div class='row time-block' id='hour-${workHour}'>
+            <div class='col-md-1 hour'>${workHour}</div>
+            <div class='col-md-10 divider ${colorClass}'>
+                <textarea class='description' cols='100%' id='planner-${workHour}'>${existingPlan}</textarea>
             </div>
-            <div class='col-md-10 divider'>
-                <textarea cols='100%' name='task' id='task' value='task'></textarea>
-            </div>
-            <div class='col-md-1 saveBtn btn btn-primary id='save'>
+            <div class='col-md-1 saveBtn btn btn-primary'>
                 SAVE
             </div>
             `)
-            
-
+            workHour++;
         }
-    } 
-
-    hourBlocks();
-
-    
-  
+    }
 });
