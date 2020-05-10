@@ -20,7 +20,7 @@ $(document).ready(function () {
         while (workHour < 18) {
 
             var currentHour = moment().hour();
-            //change color for future, past and present hours
+            
             if ((workHour - currentHour) < 0) {
                 colorClass = 'past';
             } else if (workHour === currentHour) {
@@ -28,7 +28,7 @@ $(document).ready(function () {
             } else {
                 colorClass = 'future';
             }
-            //gets any existing items from local storage
+
             var localSchedule = localStorage.getItem(workHour);
             var scheduleItem = '';
 
@@ -37,7 +37,7 @@ $(document).ready(function () {
 
             //append timeblocks to html
             $('#timeblocks').append(`<div class='row time-block'>
-            <div class='col-md-1 hour'>${moment().hour(workHour).format('h a')}</div>
+            <div class='col-md-1 hour'>${workHour}</div>
             <div class='col-md-10 divider ${colorClass}'>
                 <textarea class='description' cols='100%'>${scheduleItem}</textarea>
             </div>
